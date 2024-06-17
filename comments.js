@@ -1,11 +1,23 @@
-//Create Web server
+// Create web server
+// Import express and body-parser
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
-//Create a new server that listens on port 3000
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
-});
-//Create a new route for GET requests to /comments
+// Parse JSON (application/json content-type)
+app.use(bodyParser.json());
+// Array to store comments
+const comments = [];
+// GET /comments
 app.get('/comments', (req, res) => {
-    res.send('This is the comments page');
+    res.json(comments);
+});
+// POST /comments
+app.post('/comments', (req, res) => {
+    const comment = req.body;
+    comments.push(comment);
+    res.status(201).json(comment);
+});
+// Start server
+app.listen(3000, () => {
+    console.log('Server started');
 });
